@@ -8,7 +8,7 @@ import fileinput
 file = 'HTML file to post to'
 phrase1 = 'text preceding geotag'
 phrase2 = 'text following geotag'
-url = 'URL of API that provides longitude and latitude'
+url = 'API URL and token that provides longitude and latitude'
 
 try:
     u = requests.get(url)
