@@ -1,9 +1,106 @@
-# Code to automatically geolocate phone and post to WWW page
+#!/usr/local/bin/python3.7
+
+# Code to automatically geolocate Bryan
 # Written by BMG, 18jun2019
 
 import requests
 import reverse_geocode
+import reverse_geocoder as rg
 import fileinput
+
+DictInvert = lambda d: dict(zip(d.values(), d.keys()))
+
+us_states = {
+        'AK': 'Alaska',
+        'AL': 'Alabama',
+        'AR': 'Arkansas',
+        'AS': 'American Samoa',
+        'AZ': 'Arizona',
+        'CA': 'California',
+        'CO': 'Colorado',
+        'CT': 'Connecticut',
+        'DC': 'District of Columbia',
+        'DE': 'Delaware',
+        'FL': 'Florida',
+        'GA': 'Georgia',
+        'GU': 'Guam',
+        'HI': 'Hawaii',
+        'IA': 'Iowa',
+        'ID': 'Idaho',
+        'IL': 'Illinois',
+        'IN': 'Indiana',
+        'KS': 'Kansas',
+        'KY': 'Kentucky',
+        'LA': 'Louisiana',
+        'MA': 'Massachusetts',
+        'MD': 'Maryland',
+        'ME': 'Maine',
+        'MI': 'Michigan',
+        'MN': 'Minnesota',
+        'MO': 'Missouri',
+        'MP': 'Northern Mariana Islands',
+        'MS': 'Mississippi',
+        'MT': 'Montana',
+        'NA': 'National',
+        'NC': 'North Carolina',
+        'ND': 'North Dakota',
+        'NE': 'Nebraska',
+        'NH': 'New Hampshire',
+        'NJ': 'New Jersey',
+        'NM': 'New Mexico',
+        'NV': 'Nevada',
+        'NY': 'New York',
+        'OH': 'Ohio',
+        'OK': 'Oklahoma',
+        'OR': 'Oregon',
+        'PA': 'Pennsylvania',
+        'PR': 'Puerto Rico',
+        'RI': 'Rhode Island',
+        'SC': 'South Carolina',
+        'SD': 'South Dakota',
+        'TN': 'Tennessee',
+        'TX': 'Texas',
+        'UT': 'Utah',
+        'VA': 'Virginia',
+        'VI': 'Virgin Islands',
+        'VT': 'Vermont',
+        'WA': 'Washington',
+        'WI': 'Wisconsin',
+        'WV': 'West Virginia',
+        'WY': 'Wyoming'
+}
+
+ca_prov = {
+    'AB': 'Alberta',
+    'BC': 'British Columbia',
+    'MB': 'Manitoba',
+    'NB': 'New Brunswick',
+    'NL': 'Newfoundland and Labrador',
+    'NT': 'Northwest Territories',
+    'NS': 'Nova Scotia',
+    'NU': 'Nunavut',
+    'ON': 'Ontario',
+    'PE': 'Prince Edward Island',
+    'QC': 'Quebec',
+    'SK': 'Saskatchewan',
+    'YT': 'Yukon'
+}
+
+au_states = {
+        'NSW': 'New South Wales',
+        'QLD': 'Queensland',
+        'WA': 'Western Australia',
+        'ACT': 'Australian Capital Territory',
+        'SA': 'South Australia',
+        'NT': 'Northern Territory',
+        'TAS': 'Tasmania',
+        'VIC': 'Victoria'
+}
+
+us_states = DictInvert(us_states)
+ca_prov = DictInvert(ca_prov)
+au_states = DictInvert(au_states)
+states = {**us_states, **ca_prov, **au_states}
 
 file = 'HTML file to post to'
 phrase1 = 'text preceding geotag'
@@ -17,8 +114,13 @@ try:
 
     coordinates = (lat,long),
     city = reverse_geocode.search(coordinates)[0]["city"]
+    state = rg.search(coordinates)[0]['admin1']
+    try:
+        state_abbrev = ' '+states[state]
+    except:
+        state_abbrev = ''
     country = reverse_geocode.search(coordinates)[0]["country"]
-    loc = city+', '+country+phrase2
+    loc = city+state_abbrev+', '+country+phrase2
 
     with fileinput.FileInput(file,inplace=True,backup='.bak') as file:
         for line in file:
@@ -29,4 +131,3 @@ try:
                 print(line,end='')
 except:
     pass
-
