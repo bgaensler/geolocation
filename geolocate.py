@@ -1,7 +1,12 @@
 #!/usr/local/bin/python3.7
 
-# Code to automatically geolocate Bryan
+# Code to automatically geolocate user and update WWW page
 # Written by BMG, 18jun2019
+
+file = 'HTML file to post to'
+phrase1 = 'text preceding geotag'
+phrase2 = 'text following geotag'
+url = 'API URL and token that provides longitude and latitude'
 
 import requests
 import reverse_geocode
@@ -101,11 +106,6 @@ us_states = DictInvert(us_states)
 ca_prov = DictInvert(ca_prov)
 au_states = DictInvert(au_states)
 states = {**us_states, **ca_prov, **au_states}
-
-file = 'HTML file to post to'
-phrase1 = 'text preceding geotag'
-phrase2 = 'text following geotag'
-url = 'API URL and token that provides longitude and latitude'
 
 try:
     u = requests.get(url)
