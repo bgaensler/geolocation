@@ -113,7 +113,8 @@ try:
     long = u.json()['Data'][0]["Longitude"]
 
     coordinates = (lat,long),
-    city = reverse_geocode.search(coordinates)[0]["city"]
+#    city = reverse_geocode.search(coordinates)[0]["city"]
+    city = rg.search(coordinates)[0]['name']
     state = rg.search(coordinates)[0]['admin1']
     try:
         state_abbrev = ' '+states[state]
