@@ -9,9 +9,10 @@ phrase2 = 'text following geotag'
 url = 'API URL and token that provides longitude and latitude'
 
 import requests
-import reverse_geocode
+#import reverse_geocode
 import reverse_geocoder as rg
 import fileinput
+import pycountry
 
 DictInvert = lambda d: dict(zip(d.values(), d.keys()))
 
@@ -114,13 +115,15 @@ try:
 
     coordinates = (lat,long),
 #    city = reverse_geocode.search(coordinates)[0]["city"]
-    city = rg.search(coordinates)[0]['name']
-    state = rg.search(coordinates)[0]['admin1']
+    geo = rg.search(coordinates)[0]
+    city = geo['name']
+    state = geo['admin1']
     try:
         state_abbrev = ' '+states[state]
     except:
         state_abbrev = ''
-    country = reverse_geocode.search(coordinates)[0]["country"]
+    country = pycountry.countries.get(alpha_2=geo['cc']).name
+#    country = reverse_geocode.search(coordinates)[0]["country"]
     loc = city+state_abbrev+', '+country+phrase2
 
     with fileinput.FileInput(file,inplace=True,backup='.bak') as file:
