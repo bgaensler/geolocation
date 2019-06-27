@@ -124,7 +124,7 @@ try:
         state_abbrev = ''
 
 # To be implemented in future. Alternative state lookup
-#   state_abbrev = pycountry.subdivisions.lookup(state).code[3:]
+#   state_abbrev = ' '+pycountry.subdivisions.lookup(state).code[3:]
 
     country = pycountry.countries.get(alpha_2=geo['cc']).name
 #    country = reverse_geocode.search(coordinates)[0]["country"]
