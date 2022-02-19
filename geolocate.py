@@ -117,18 +117,21 @@ try:
 #    city = reverse_geocode.search(coordinates)[0]["city"]
     geo = rg.search(coordinates)[0]
     city = geo['name']
+    if (city == 'East York' or city == 'Etobicoke' or city == 'Scarborough'):
+        city = 'Toronto'
     state = geo['admin1']
     try:
         state_abbrev = ' '+states[state]
     except:
-        state_abbrev = ''
-
-# To be implemented in future. Alternative state lookup
-#   state_abbrev = ' '+pycountry.subdivisions.lookup(state).code[3:]
+        try:
+           state_abbrev = ' '+pycountry.subdivisions.lookup(state).code[3:]
+        except:
+           state_abbrev = ''
 
     country = pycountry.countries.get(alpha_2=geo['cc']).name
 #    country = reverse_geocode.search(coordinates)[0]["country"]
     loc = city+state_abbrev+', '+country+phrase2
+    print(city+state_abbrev+', '+country)
 
     with fileinput.FileInput(file,inplace=True,backup='.bak') as file:
         for line in file:
