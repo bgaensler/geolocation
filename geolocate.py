@@ -127,6 +127,8 @@ try:
 #   state_abbrev = ' '+pycountry.subdivisions.lookup(state).code[3:]
 
     country = pycountry.countries.get(alpha_2=geo['cc']).name
+    if (country == 'Korea, Republic of'):
+        country = 'South Korea'
 #    country = reverse_geocode.search(coordinates)[0]["country"]
     loc = city+state_abbrev+', '+country+phrase2
 
