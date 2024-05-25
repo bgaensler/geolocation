@@ -127,6 +127,13 @@ try:
            state_abbrev = ' '+pycountry.subdivisions.lookup(state).code[3:]
         except:
            state_abbrev = ''
+#   Strip any numbers out of the state_abbrev
+    state_abbrev = ''.join([i for i in state_abbrev if not i.isdigit()])
+#   If state_abbrev is only whitespace, then strip it
+    if (state_abbrev.isspace()):
+        state_abbrev=''
+#   Replace '-shi' at the end of Japanese cities
+    city = city.replace('-shi',' City')
 
     country = pycountry.countries.get(alpha_2=geo['cc']).name
     if (country == 'Korea, Republic of'):
