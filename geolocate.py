@@ -119,6 +119,11 @@ try:
     city = geo['name']
     if (city == 'East York' or city == 'Etobicoke' or city == 'Scarborough'):
         city = 'Toronto'
+    if (city == 'Pasatiempo'):
+        city = 'Santa Cruz'
+    if (city == 'Cuauhtemoc'):
+        city = 'Mexico City'
+
     state = geo['admin1']
     try:
         state_abbrev = ' '+states[state]
